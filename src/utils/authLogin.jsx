@@ -11,14 +11,18 @@ provider.setCustomParameters({
 export const auth = getAuth();
 
 export const signInWithGooglePopup = async () => {
+    await auth.setPersistence(browserLocalPersistence);
 
-    await auth.setPersistence(browserLocalPersistence)
     signInWithPopup(auth, provider)
         .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
             const user = result.user;
-        }).catch((error) => {
-            console.log("error occured ", error)
+
+            // Redirect to another web page
+            window.location.href = "/";
+        })
+        .catch((error) => {
+            console.log("error occurred ", error);
         });
-}   
+}
